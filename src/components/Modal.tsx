@@ -29,9 +29,7 @@ const ModalDialog: React.FC<ModalDialogProps> = ({
           <Dialog.Description id={"dialog-description"} className="sr-only">
             {description}
           </Dialog.Description>
-
           {children}
-
           <Dialog.Close asChild>
             <button
               className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"

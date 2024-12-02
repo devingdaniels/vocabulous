@@ -17,8 +17,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Vocabulous",
-  description: "Real-time chat app with Next.js and NestJS",
+  title: "Vocabulous ✨",
+  description: "Real-time language learning platform with Generative AI ✨",
 };
 
 export default function RootLayout({
