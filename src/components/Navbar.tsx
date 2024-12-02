@@ -7,7 +7,7 @@ import { useAuth } from "@/context/AuthContext";
 import { Button } from "@radix-ui/themes";
 
 interface NavBarProps {
-  user: AuthorizedUser;
+  user: AuthorizedUser | null;
 }
 
 const NavBar: React.FC<NavBarProps> = ({ user }) => {
@@ -58,6 +58,3 @@ const NavBar: React.FC<NavBarProps> = ({ user }) => {
   );
 };
 export default NavBar;
-
-// Source(s):
-// https://stackoverflow.com/questions/73052741/google-profile-picture-not-rendering

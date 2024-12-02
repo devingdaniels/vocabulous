@@ -3,7 +3,6 @@ import * as ScrollArea from "@radix-ui/react-scroll-area";
 import { PiStackPlusFill } from "react-icons/pi";
 import { Button } from "@radix-ui/themes";
 import { Deck } from "@/interfaces/deck.interface";
-import ModalDialog from "@/components/Modal";
 import CreateWordForm from "./CreateDeckModal";
 
 interface DeckSideBarProps {
