@@ -1,9 +1,12 @@
 import React from "react";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
+import { PiStackPlusFill } from "react-icons/pi";
+import { Button } from "@radix-ui/themes";
+import { Deck } from "@/interfaces/deck.interface";
 
 interface DeckSideBarProps {
   selectedDeckId: number | null;
-  decks: { id: number; name: string; wordCount: number }[];
+  decks: Deck[];
   setSelectedDeckId: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
@@ -11,7 +14,19 @@ const DeckSidebar: React.FC<DeckSideBarProps> = ({ selectedDeckId, decks, setSel
   return (
     <div className="w-64 border-r bg-white h-[calc(100vh-4rem)]">
       <div className="p-4 border-b">
-        <h2 className="text-xl font-semibold text-gray-900">Your Decks</h2>
+        <Button
+          variant="solid"
+          color="blue"
+          className="w-full py-2"
+          onClick={() => {
+            console.log("show modal");
+          }}
+        >
+          <div className="flex items-center justify-center gap-2">
+            <span className="font-medium">Create Deck</span>
+            <PiStackPlusFill className="w-5 h-5" />
+          </div>
+        </Button>
       </div>
       <ScrollArea.Root className="h-[calc(100%-4rem)] overflow-hidden">
         <ScrollArea.Viewport className="w-full h-full">
@@ -42,7 +57,7 @@ const DeckSidebar: React.FC<DeckSideBarProps> = ({ selectedDeckId, decks, setSel
                       selectedDeckId === deck.id ? "text-blue-100" : "text-gray-500"
                     }`}
                   >
-                    {deck.wordCount} words
+                    {deck.words.length} words
                   </div>
                 </div>
               </div>

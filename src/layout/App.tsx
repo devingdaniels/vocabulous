@@ -6,33 +6,33 @@ import { useRouter } from "next/navigation";
 import NavBar from "@/components/Navbar";
 import DeckSidebar from "@/components/DeckSideBar";
 import WordGrid from "@/components/WordGrid";
+import { Deck } from "@/interfaces/deck.interface";
 
-const mockDecks = [
-  { id: 1, name: "Spanish Basics", wordCount: 45 },
-  { id: 2, name: "Programming Terms", wordCount: 32 },
-  { id: 3, name: "Medical Vocabulary", wordCount: 78 },
-  { id: 4, name: "Business English", wordCount: 56 },
-  { id: 5, name: "Travel Phrases", wordCount: 23 },
-  { id: 6, name: "Spanish Basics", wordCount: 45 },
-  { id: 7, name: "Programming Terms", wordCount: 32 },
-  { id: 8, name: "Medical Vocabulary", wordCount: 78 },
-  { id: 9, name: "Business English", wordCount: 56 },
-  { id: 10, name: "Travel Phrases", wordCount: 23 },
-  { id: 11, name: "Spanish Basics", wordCount: 45 },
-  { id: 12, name: "Programming Terms", wordCount: 32 },
-  { id: 13, name: "Medical Vocabulary", wordCount: 78 },
-  { id: 14, name: "Business English", wordCount: 56 },
-  { id: 15, name: "Travel Phrases", wordCount: 23 },
-  { id: 16, name: "Spanish Basics", wordCount: 45 },
-  { id: 17, name: "Programming Terms", wordCount: 32 },
-  { id: 18, name: "Medical Vocabulary", wordCount: 78 },
-  { id: 19, name: "Business English", wordCount: 56 },
-  { id: 20, name: "Travel Phrases", wordCount: 23 },
-  { id: 21, name: "Spanish Basics", wordCount: 45 },
-  { id: 22, name: "Programming Terms", wordCount: 32 },
-  { id: 23, name: "Medical Vocabulary", wordCount: 78 },
-  { id: 24, name: "Business English", wordCount: 56 },
-  { id: 25, name: "Travel Phrases", wordCount: 23 },
+const mockDecks: Deck[] = [
+  {
+    id: 1,
+    name: "Spanish Basics",
+    description: "Basic Spanish words",
+    createdBy: { firstName: "Devin", lastName: "Daniels", accessToken: "", picture: "", email: "" },
+    words: [
+      { id: 1, word: "Hello", translation: "Hola", example: "Some example sentence", deckId: 1 },
+      { id: 2, word: "Goodbye", translation: "Adiós", example: "Some example sentence", deckId: 1 },
+      {
+        id: 3,
+        word: "Algorithm",
+        translation: "A step-by-step procedure",
+        example: "Some example sentence",
+        deckId: 2,
+      },
+      {
+        id: 4,
+        word: "Variable",
+        translation: "A container for data",
+        example: "Some example sentence",
+        deckId: 2,
+      },
+    ],
+  },
 ];
 
 const AppLayout = () => {
@@ -63,9 +63,9 @@ const AppLayout = () => {
           selectedDeckId={selectedDeckId}
           setSelectedDeckId={setSelectedDeckId}
         />
-        <main className="flex-1 overflow-auto bg-gray-50">
+        <div className="flex-1 overflow-auto bg-gray-50">
           <WordGrid selectedDeck={mockDecks.find((deck) => deck.id === selectedDeckId)} />
-        </main>
+        </div>
       </div>
     </div>
   );
