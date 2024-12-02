@@ -17,8 +17,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Vocabulous",
-  description: "Real-time chat app with Next.js and NestJS",
+  title: "Vocabulous ✨",
+  description: "Real-time language learning platform with Generative AI ✨",
 };
 
 export default function RootLayout({
@@ -30,7 +30,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <AuthProvider>
-          <Theme accentColor="crimson" grayColor="sand" radius="large" scaling="95%">
+          <Theme accentColor="blue" grayColor="sand" radius="large" scaling="95%">
             {children}
           </Theme>
         </AuthProvider>
