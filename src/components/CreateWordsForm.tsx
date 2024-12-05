@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@radix-ui/themes";
 import ModalDialog from "@/components/Modal";
-import { TextArea } from "@radix-ui/themes";
 
 interface CreateWordsFormProps {
   isOpen: boolean;
