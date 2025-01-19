@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@radix-ui/themes";
 import ModalDialog from "@/app/modals/Modal";
+import { WordDispatch } from "@/api/word";
 
 interface CreateWordsFormProps {
   isOpen: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  deckId: number;
 }
 
-export const CreateWordModal: React.FC<CreateWordsFormProps> = ({ isOpen, setOpen }) => {
+export const CreateWordModal: React.FC<CreateWordsFormProps> = ({ isOpen, setOpen, deckId }) => {
   const [words, setWords] = useState<string>("");
   const [error, setError] = useState<string>("");
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const wordsList = words
       .split("\n")
       .map((word) => word.trim())
@@ -19,6 +21,13 @@ export const CreateWordModal: React.FC<CreateWordsFormProps> = ({ isOpen, setOpe
 
     if (wordsList.length === 0) {
       setError("Please enter at least one word");
+      return;
+    }
+
+    const res = await WordDispatch.createWord(wordsList, deckId);
+
+    if (!res) {
+      setError("An error occurred while adding words to the deck");
       return;
     }
 

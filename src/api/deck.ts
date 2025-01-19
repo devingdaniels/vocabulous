@@ -1,9 +1,6 @@
-import { getBackendURL } from "@/constants";
+import { getBackendURL } from "@/utils/index";
 import axios from "axios";
-import { getUserFromLocalStorage } from "@/utils/auth";
-
-// Constants
-const URL = baseDeckURL + "/deck";
+import { getUserFromLocalStorage } from "@/utils";
 
 const getDecks = async () => {
   const URL = getBackendURL("deck");
