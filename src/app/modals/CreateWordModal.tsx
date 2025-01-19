@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@radix-ui/themes";
-import ModalDialog from "@/components/Modal";
+import ModalDialog from "@/app/modals/Modal";
 
 interface CreateWordsFormProps {
   isOpen: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const CreateWordsForm: React.FC<CreateWordsFormProps> = ({ isOpen, setOpen }) => {
+export const CreateWordModal: React.FC<CreateWordsFormProps> = ({ isOpen, setOpen }) => {
   const [words, setWords] = useState<string>("");
   const [error, setError] = useState<string>("");
 
@@ -65,5 +65,3 @@ const CreateWordsForm: React.FC<CreateWordsFormProps> = ({ isOpen, setOpen }) =>
     </ModalDialog>
   );
 };
-
-export default CreateWordsForm;

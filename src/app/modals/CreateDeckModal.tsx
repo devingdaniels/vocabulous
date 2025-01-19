@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@radix-ui/themes";
-import ModalDialog from "@/components/Modal";
+import ModalDialog from "@/app/modals/Modal";
 import * as Switch from "@radix-ui/react-switch";
 
 interface CreateDeckFormProps {
-  isCreateDeckModalShown: boolean;
-  setIsCreateDeckModalShown: React.Dispatch<React.SetStateAction<boolean>>;
+  isOpen: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const CreateDeckForm: React.FC<CreateDeckFormProps> = ({
-  isCreateDeckModalShown,
-  setIsCreateDeckModalShown,
-}) => {
+export const CreateDeckModal: React.FC<CreateDeckFormProps> = ({ isOpen, setOpen }) => {
   const [deckName, setDeckName] = useState<string>("");
   const [useAI, setUseAI] = useState<boolean>(false);
   const [theme, setTheme] = useState<string>("");
@@ -25,7 +22,7 @@ const CreateDeckForm: React.FC<CreateDeckFormProps> = ({
 
     setError("");
     console.log({ deckName, useAI, theme });
-    setIsCreateDeckModalShown(false);
+    setOpen(false);
   };
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,20 +31,16 @@ const CreateDeckForm: React.FC<CreateDeckFormProps> = ({
   };
 
   useEffect(() => {
-    if (!isCreateDeckModalShown) {
+    if (!isOpen) {
       setDeckName("");
       setUseAI(false);
       setTheme("");
       setError("");
     }
-  }, [isCreateDeckModalShown]);
+  }, [isOpen]);
 
   return (
-    <ModalDialog
-      title="Create New Deck"
-      open={isCreateDeckModalShown}
-      setOpen={setIsCreateDeckModalShown}
-    >
+    <ModalDialog title="Create New Deck" open={isOpen} setOpen={setOpen}>
       <div className="space-y-6">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">Deck Name</label>
@@ -97,13 +90,11 @@ const CreateDeckForm: React.FC<CreateDeckFormProps> = ({
         <Button
           color="blue"
           onClick={handleSubmit}
-          className="w-full px-4 py-2 text-white font-medium bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300"
+          className="w-full px-4 py-2 text-white font-medium bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 cursor-pointer"
         >
-          Create Deck
+          Create
         </Button>
       </div>
     </ModalDialog>
   );
 };
-
-export default CreateDeckForm;
