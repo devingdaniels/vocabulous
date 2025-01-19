@@ -2,7 +2,9 @@ import React from "react";
 import WordCard from "@/components/WordCard";
 import { Plus } from "lucide-react";
 import { Deck } from "@/interfaces/deck.interface";
-import CreateWordForm from "@/components/CreateWordsForm";
+import { CreateWordModal } from "@/app/modals/CreateWordModal";
+import { BiEdit } from "react-icons/bi";
+import { EditDeckModal } from "@/app/modals/EditDeckModal";
 
 interface WordGridProps {
   selectedDeck: Deck | undefined;
@@ -10,6 +12,7 @@ interface WordGridProps {
 
 const WordGrid: React.FC<WordGridProps> = ({ selectedDeck }) => {
   const [isCreateWordsModalShown, setIsCreateWordsModalShown] = React.useState(false);
+  const [isShowUpdateWordNameModal, setIsShowUpdateWordNameModal] = React.useState(false);
 
   if (!selectedDeck) {
     return (
@@ -25,7 +28,13 @@ const WordGrid: React.FC<WordGridProps> = ({ selectedDeck }) => {
   return (
     <>
       <div className="word-grid-container">
-        <h1 className="word-grid-title">{selectedDeck.name}</h1>
+        <h1 className="word-grid-title flex flex-row items-center gap-3">
+          {selectedDeck.name}{" "}
+          <BiEdit
+            onClick={() => setIsShowUpdateWordNameModal(!isShowUpdateWordNameModal)}
+            className="edit-icon cursor-pointer"
+          />
+        </h1>
 
         <div className="word-grid">
           {selectedDeck.words?.map((word) => (
@@ -43,7 +52,12 @@ const WordGrid: React.FC<WordGridProps> = ({ selectedDeck }) => {
           />
         </button>
       </div>
-      <CreateWordForm setOpen={setIsCreateWordsModalShown} isOpen={isCreateWordsModalShown} />
+      <CreateWordModal setOpen={setIsCreateWordsModalShown} isOpen={isCreateWordsModalShown} />
+      <EditDeckModal
+        setOpen={setIsShowUpdateWordNameModal}
+        isOpen={isShowUpdateWordNameModal}
+        deckId={selectedDeck.id}
+      />
     </>
   );
 };

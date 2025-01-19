@@ -5,3 +5,5 @@ export type AuthorizedUser = {
   picture: string;
   accessToken: string;
 };
+
+export type User = AuthorizedUser & {};

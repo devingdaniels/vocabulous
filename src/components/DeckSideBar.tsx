@@ -3,7 +3,7 @@ import * as ScrollArea from "@radix-ui/react-scroll-area";
 import { PiStackPlusFill } from "react-icons/pi";
 import { Button } from "@radix-ui/themes";
 import { Deck } from "@/interfaces/deck.interface";
-import CreateWordForm from "./CreateDeckModal";
+import { CreateDeckModal } from "../app/modals/CreateDeckModal";
 
 interface DeckSideBarProps {
   decks: Deck[];
@@ -25,7 +25,7 @@ const DeckSidebar: React.FC<DeckSideBarProps> = ({ selectedDeckId, decks, setSel
               setIsCreateDeckModalShown(true);
             }}
           >
-            <div className="flex items-center justify-center gap-2">
+            <div className="flex items-center justify-center gap-2 cursor-pointer">
               <span className="font-medium">Create Deck</span>
               <PiStackPlusFill className="w-5 h-5" />
             </div>
@@ -76,10 +76,7 @@ const DeckSidebar: React.FC<DeckSideBarProps> = ({ selectedDeckId, decks, setSel
         </ScrollArea.Root>
       </div>
 
-      <CreateWordForm
-        setIsCreateDeckModalShown={setIsCreateDeckModalShown}
-        isCreateDeckModalShown={isCreateDeckModalShown}
-      />
+      <CreateDeckModal setOpen={setIsCreateDeckModalShown} isOpen={isCreateDeckModalShown} />
     </>
   );
 };

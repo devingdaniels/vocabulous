@@ -1,33 +1,54 @@
+import { baseDeckURL } from "@/constants";
 import axios from "axios";
+import { getUserFromLocalStorage } from "@/utils/auth";
+// Constants
+const URL = baseDeckURL + "/deck";
 
-const URL =
-  process.env.NEXT_PUBLIC_NODE_ENV === "production"
-    ? process.env.NEXT_PUBLIC_GOOGLE_OAUTH2_URL_PROD
-    : process.env.NEXT_PUBLIC_API_URL_PROD;
-
-export const createDeck = async (name: string, userID: string) => {
-  try {
-    const response = await axios.post(`${URL}/deck`, { name, userID });
-    return response.data;
-  } catch (error: any) {
-    throw new Error(error.response.data);
-  }
-};
-
-export const getDecks = async () => {
+const getDecks = async () => {
   try {
     const response = await axios.get(`${URL}/deck`);
     return response.data;
   } catch (error: any) {
+    console.log(error);
     throw new Error(error.response.data);
   }
 };
 
-export const getDeckByID = async (id: string) => {
+const getDeckByID = async (id: string) => {
   try {
-    const response = await axios.get(`${URL}/deck/${id}`);
+    const response = await axios.get(`${URL}/${id}`);
     return response.data;
   } catch (error: any) {
+    console.log(error);
     throw new Error(error.response.data);
   }
+};
+
+const createDeck = async (name: string, userID: string) => {
+  try {
+    const response = await axios.post(`${URL}/`, { name, userID });
+    return response.data;
+  } catch (error: any) {
+    console.log(error);
+    throw new Error(error.response.data);
+  }
+};
+
+const updateDeck = async (name: string, deckId: number) => {
+  const { user, token } = getUserFromLocalStorage();
+
+  try {
+    const response = await axios.put(`${URL}/${deckId}`, { name, user, token });
+    return response.data;
+  } catch (error: any) {
+    console.log(error);
+    throw new Error(error.response.data);
+  }
+};
+
+export const DeckDispatch = {
+  getDecks,
+  getDeckByID,
+  createDeck,
+  updateDeck,
 };
