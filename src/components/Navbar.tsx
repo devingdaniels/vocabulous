@@ -18,7 +18,7 @@ const NavBar: React.FC<NavBarProps> = ({ user }) => {
 
   return (
     <nav className="flex justify-between items-center p-4 bg-gray-800 text-white">
-      <div className="text-xl font-bold">Vocabulous</div>
+      <h1 className="text-xl font-bold">Vocabulous</h1>
       <div
         className="flex items-center space-x-2 cursor-pointer"
         onClick={() => setIsSettingsModalOpen(!isSettingsModalOpen)}

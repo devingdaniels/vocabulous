@@ -56,9 +56,9 @@ const updateWordById = async (word: IWord) => {
   }
 };
 
-const deleteWordById = async (word: IWord) => {
+const deleteWordById = async (id: number) => {
   try {
-    const URL = getBackendURL(`word/${word.id}`);
+    const URL = getBackendURL(`word/${id}`);
     const response = await axios.delete(URL);
     return response.data;
   } catch (error: any) {
