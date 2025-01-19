@@ -1,15 +1,17 @@
 import axios from "axios";
+import { getBackendURL } from "@/constants";
 
-const URL =
-  process.env.NEXT_PUBLIC_NODE_ENV === "production"
-    ? process.env.NEXT_PUBLIC_GOOGLE_OAUTH2_URL_PROD
-    : process.env.NEXT_PUBLIC_API_URL_PROD;
-
-export const createWord = async (deckID: string, userID: string, word: string[]) => {
+export const createWord = async (deckID: string, userID: string, words: string[]) => {
   try {
-    const response = await axios.post(`${URL}/deck/${deckID}/word`, { word, userID });
+    const URL = getBackendURL(`deck/${deckID}/word`);
+    console.log(URL);
+    const response = await axios.post(URL, { words, userID });
     return response.data;
   } catch (error: any) {
-    throw new Error(error.response.data);
+    if (error.response?.data) {
+      throw new Error(error.response.data.message || "An error occurred on the server.");
+    } else {
+      throw new Error("An unexpected error occurred. Please try again.");
+    }
   }
 };

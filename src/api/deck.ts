@@ -1,12 +1,14 @@
-import { baseDeckURL } from "@/constants";
+import { getBackendURL } from "@/constants";
 import axios from "axios";
 import { getUserFromLocalStorage } from "@/utils/auth";
+
 // Constants
 const URL = baseDeckURL + "/deck";
 
 const getDecks = async () => {
+  const URL = getBackendURL("deck");
   try {
-    const response = await axios.get(`${URL}/deck`);
+    const response = await axios.get(URL);
     return response.data;
   } catch (error: any) {
     console.log(error);
@@ -24,9 +26,10 @@ const getDeckByID = async (id: string) => {
   }
 };
 
-const createDeck = async (name: string, userID: string) => {
+const createDeck = async (name: string) => {
+  const { user, token } = getUserFromLocalStorage();
   try {
-    const response = await axios.post(`${URL}/`, { name, userID });
+    const response = await axios.post(`${URL}/`, { name, user, token });
     return response.data;
   } catch (error: any) {
     console.log(error);
@@ -36,7 +39,6 @@ const createDeck = async (name: string, userID: string) => {
 
 const updateDeck = async (name: string, deckId: number) => {
   const { user, token } = getUserFromLocalStorage();
-
   try {
     const response = await axios.put(`${URL}/${deckId}`, { name, user, token });
     return response.data;
