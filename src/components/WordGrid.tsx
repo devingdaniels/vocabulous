@@ -52,7 +52,11 @@ const WordGrid: React.FC<WordGridProps> = ({ selectedDeck }) => {
           />
         </button>
       </div>
-      <CreateWordModal setOpen={setIsCreateWordsModalShown} isOpen={isCreateWordsModalShown} />
+      <CreateWordModal
+        setOpen={setIsCreateWordsModalShown}
+        isOpen={isCreateWordsModalShown}
+        deckId={selectedDeck.id}
+      />
       <EditDeckModal
         setOpen={setIsShowUpdateWordNameModal}
         isOpen={isShowUpdateWordNameModal}

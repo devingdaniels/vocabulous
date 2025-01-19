@@ -16,8 +16,6 @@ const NavBar: React.FC<NavBarProps> = ({ user }) => {
 
   const { logout } = useAuth();
 
-  console.log(user);
-
   return (
     <nav className="flex justify-between items-center p-4 bg-gray-800 text-white">
       <div className="text-xl font-bold">Vocabulous</div>

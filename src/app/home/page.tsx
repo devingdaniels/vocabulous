@@ -22,7 +22,7 @@ const mockDecks: Deck[] = [
     words: [
       {
         id: 1,
-        word: "Hello",
+        word: "Helo",
         translation: "Hola",
         example: "Some example sentence",
         deckId: 1,
