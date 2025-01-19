@@ -1,4 +1,5 @@
 import { AuthorizedUser as User } from "./user.interface";
+import { Word } from "./word.interface";
 
 export interface Deck {
   id: number;

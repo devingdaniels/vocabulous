@@ -19,7 +19,7 @@ export const EditDeckModal: React.FC<EditDeckProps> = ({ isOpen, setOpen, deckId
       return;
     }
 
-    const response = await DeckDispatch.updateDeck(deckName, deckId);
+    await DeckDispatch.updateDeck(deckName, deckId);
 
     console.log({ deckName });
     setOpen(false);

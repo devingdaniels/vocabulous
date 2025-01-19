@@ -4,7 +4,6 @@ import { Plus } from "lucide-react";
 import { Deck } from "@/interfaces/deck.interface";
 import { CreateWordModal } from "@/app/modals/CreateWordModal";
 import { BiEdit } from "react-icons/bi";
-import { CreateDeckModal } from "@/app/modals/CreateDeckModal";
 import { EditDeckModal } from "@/app/modals/EditDeckModal";
 
 interface WordGridProps {

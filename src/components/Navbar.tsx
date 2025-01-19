@@ -5,7 +5,6 @@ import ModalDialog from "@/app/modals/Modal";
 import { AuthorizedUser } from "@/interfaces/user.interface";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@radix-ui/themes";
-import { AiFillProfile } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
 
 interface NavBarProps {
