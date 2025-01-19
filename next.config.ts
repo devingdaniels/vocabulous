@@ -8,9 +8,9 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: "/", // The root path
-        destination: "/auth/login", // The desired destination
-        permanent: true, // Indicates whether this is a permanent redirect (status code 308)
+        source: "/",
+        destination: "/auth/login",
+        permanent: true,
       },
     ];
   },
