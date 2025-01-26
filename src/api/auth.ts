@@ -11,5 +11,12 @@ export const getUserInfo = async () => {
   console.log("res", res);
   Axios.defaults.withCredentials = true;
   const response = await Axios.get(url);
+
+  console.log("response", response);
+
+  if (response.status !== 200) {
+    throw new Error("Failed to fetch user info");
+  }
+
   return response.data;
 };
