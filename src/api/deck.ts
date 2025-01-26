@@ -27,7 +27,7 @@ export const createDeck = async (name: string) => {
   //const { user, token } = getUserFromLocalStorage();
   // const user_id = user;
   try {
-    const response = await Axios.post(`${URL}/`, { name });
+    const response = await Axios.post(`${URL}/`, { name, user_id: 4 });
     return response.data;
   } catch (error: any) {
     console.log(error);
