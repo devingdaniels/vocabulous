@@ -23,7 +23,7 @@ const getDeckByID = async (id: string) => {
   }
 };
 
-const createDeck = async (name: string) => {
+export const createDeck = async (name: string) => {
   const { user, token } = getUserFromLocalStorage();
   const user_id = user;
   try {

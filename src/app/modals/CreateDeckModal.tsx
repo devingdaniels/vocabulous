@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button } from "@radix-ui/themes";
 import ModalDialog from "@/app/modals/Modal";
 import * as Switch from "@radix-ui/react-switch";
+import { createDeck } from "@/api/deck";
 
 interface CreateDeckFormProps {
   isOpen: boolean;
@@ -14,11 +15,15 @@ export const CreateDeckModal: React.FC<CreateDeckFormProps> = ({ isOpen, setOpen
   const [theme, setTheme] = useState<string>("");
   const [error, setError] = useState<string>("");
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!deckName.trim()) {
       setError("Please enter a deck name");
       return;
     }
+
+    const newDeck = await createDeck(deckName);
+
+    console.log("newDeck", newDeck);
 
     setError("");
     console.log({ deckName, useAI, theme });
