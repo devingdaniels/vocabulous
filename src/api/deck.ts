@@ -25,8 +25,9 @@ const getDeckByID = async (id: string) => {
 
 const createDeck = async (name: string) => {
   const { user, token } = getUserFromLocalStorage();
+  const user_id = user;
   try {
-    const response = await axios.post(`${URL}/`, { name, user, token });
+    const response = await axios.post(`${URL}/`, { name, user_id, token });
     return response.data;
   } catch (error: any) {
     console.log(error);
