@@ -24,10 +24,10 @@ const getDeckByID = async (id: string) => {
 };
 
 export const createDeck = async (name: string) => {
-  const { user, token } = getUserFromLocalStorage();
-  const user_id = user;
+  //const { user, token } = getUserFromLocalStorage();
+  // const user_id = user;
   try {
-    const response = await Axios.post(`${URL}/`, { name, user_id, token });
+    const response = await Axios.post(`${URL}/`, { name });
     return response.data;
   } catch (error: any) {
     console.log(error);
