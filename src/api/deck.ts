@@ -1,11 +1,11 @@
 import { getBackendURL } from "@/utils/index";
-import axios from "axios";
+import { Axios } from "./axios";
 import { getUserFromLocalStorage } from "@/utils";
 
 const getDecks = async () => {
   const URL = getBackendURL("deck");
   try {
-    const response = await axios.get(URL);
+    const response = await Axios.get(URL);
     return response.data;
   } catch (error: any) {
     console.log(error);
@@ -15,7 +15,7 @@ const getDecks = async () => {
 
 const getDeckByID = async (id: string) => {
   try {
-    const response = await axios.get(`${URL}/${id}`);
+    const response = await Axios.get(`${URL}/${id}`);
     return response.data;
   } catch (error: any) {
     console.log(error);
@@ -27,7 +27,7 @@ const createDeck = async (name: string) => {
   const { user, token } = getUserFromLocalStorage();
   const user_id = user;
   try {
-    const response = await axios.post(`${URL}/`, { name, user_id, token });
+    const response = await Axios.post(`${URL}/`, { name, user_id, token });
     return response.data;
   } catch (error: any) {
     console.log(error);
@@ -38,7 +38,7 @@ const createDeck = async (name: string) => {
 const updateDeck = async (name: string, deckId: number) => {
   const { user, token } = getUserFromLocalStorage();
   try {
-    const response = await axios.put(`${URL}/${deckId}`, { name, user, token });
+    const response = await Axios.put(`${URL}/${deckId}`, { name, user, token });
     return response.data;
   } catch (error: any) {
     console.log(error);

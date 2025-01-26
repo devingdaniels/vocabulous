@@ -1,4 +1,4 @@
-import axios from "axios";
+import { Axios } from "./axios";
 import { getBackendURL } from "@/utils/index";
 import { IWord } from "@/interfaces/word.interface";
 
@@ -6,7 +6,7 @@ const createWord = async (words: string[], deckId: number) => {
   try {
     const URL = getBackendURL(`deck/${deckId}/word`);
     console.log(URL);
-    const response = await axios.post(URL, { words });
+    const response = await Axios.post(URL, { words });
     return response.data;
   } catch (error: any) {
     if (error.response?.data) {
@@ -20,7 +20,7 @@ const createWord = async (words: string[], deckId: number) => {
 const getWords = async (deckId: number) => {
   try {
     const URL = getBackendURL(`deck/${deckId}/word`);
-    const response = await axios.get(URL);
+    const response = await Axios.get(URL);
     return response.data;
   } catch (error: any) {
     if (error.response?.data) {
@@ -34,7 +34,7 @@ const getWords = async (deckId: number) => {
 const getWordByID = async (deckId: string) => {
   const URL = getBackendURL(`word/${deckId}/word`);
   try {
-    const response = await axios.get(URL);
+    const response = await Axios.get(URL);
     return response.data;
   } catch (error: any) {
     console.log(error);
@@ -45,7 +45,7 @@ const getWordByID = async (deckId: string) => {
 const updateWordById = async (word: IWord) => {
   try {
     const URL = getBackendURL(`word/${word.id}`);
-    const response = await axios.put(URL, { word });
+    const response = await Axios.put(URL, { word });
     return response.data;
   } catch (error: any) {
     if (error.response?.data) {
@@ -59,7 +59,7 @@ const updateWordById = async (word: IWord) => {
 const deleteWordById = async (id: number) => {
   try {
     const URL = getBackendURL(`word/${id}`);
-    const response = await axios.delete(URL);
+    const response = await Axios.delete(URL);
     return response.data;
   } catch (error: any) {
     if (error.response?.data) {
