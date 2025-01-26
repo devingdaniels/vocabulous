@@ -207,7 +207,7 @@ const App: React.FC = () => {
 
   return (
     <>
-      <VocabDashboard user={user} decks={mockDecks} />
+      <VocabDashboard user={user || null} decks={mockDecks} />
     </>
   );
 };
