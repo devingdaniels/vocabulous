@@ -2,6 +2,7 @@ import { Axios } from "./axios";
 
 const getCsrfToken = async () => {
   const response = await Axios.get("https://api.vocabulous.xyz/sanctum/csrf-cookie");
+  console.log("response", response);
   return response.data.csrfToken;
 };
 
