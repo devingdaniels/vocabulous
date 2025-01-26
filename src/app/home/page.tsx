@@ -201,8 +201,8 @@ const App: React.FC = () => {
   }, [isInitialized, isAuthenticated, router]);
 
   if (!isAuthenticated() || !user) {
-    console.log("User is not authenticated or user is null, returning ");
-    return null;
+    console.log("User is not authenticated... :(");
+    // return null;
   }
 
   return (

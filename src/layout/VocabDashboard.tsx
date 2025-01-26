@@ -8,7 +8,7 @@ import { Deck } from "@/interfaces/deck.interface";
 import { User } from "@/interfaces/user.interface";
 
 interface DashboardProps {
-  user: User;
+  user: User | null;
   decks: Deck[];
 }
 
