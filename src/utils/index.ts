@@ -24,5 +24,6 @@ export const getBackendURL = (postFix: string): string => {
     throw new Error("Base URL is not defined. Check your environment variables.");
   }
 
+  // Remove trailing slash from baseURL and postFix
   return `${baseURL.replace(/\/$/, "")}/${postFix.replace(/^\//, "")}`;
 };
