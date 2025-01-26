@@ -192,8 +192,8 @@ const App: React.FC = () => {
   useEffect(() => {
     if (isInitialized && !isAuthenticated()) {
       console.log("User is not authenticated, redirecting to login page...");
-      router.replace("/auth/login");
-      return;
+      // router.replace("/auth/login");
+      // return;
     }
 
     const userInfo = getUserInfo();
