@@ -26,8 +26,9 @@ const getDeckByID = async (id: string) => {
 export const createDeck = async (name: string) => {
   //const { user, token } = getUserFromLocalStorage();
   // const user_id = user;
+  const url = getBackendURL("deck");
   try {
-    const response = await Axios.post(`${URL}/`, { name, user_id: 4 });
+    const response = await Axios.post(`${url}/`, { name, user_id: 4 });
     return response.data;
   } catch (error: any) {
     console.log(error);
@@ -37,8 +38,9 @@ export const createDeck = async (name: string) => {
 
 const updateDeck = async (name: string, deckId: number) => {
   const { user, token } = getUserFromLocalStorage();
+  const url = getBackendURL("deck");
   try {
-    const response = await Axios.put(`${URL}/${deckId}`, { name, user, token });
+    const response = await Axios.put(`${url}/${deckId}`, { name, user, token });
     return response.data;
   } catch (error: any) {
     console.log(error);
