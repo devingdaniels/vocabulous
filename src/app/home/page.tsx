@@ -1,3 +1,4 @@
+// This is the home page that will the user will be redirected to after login (set in next.config.js)
 "use client";
 
 import { useEffect } from "react";
@@ -5,7 +6,7 @@ import { useAuth } from "../../context/AuthContext";
 import { useRouter } from "next/navigation";
 import { VocabDashboard } from "@/layout/VocabDashboard";
 import { Deck } from "@/interfaces/deck.interface";
-import { AuthorizedUser } from "@/interfaces/user.interface";
+import { getUserInfo } from "@/api/auth";
 
 const mockDecks: Deck[] = [
   {
@@ -13,6 +14,7 @@ const mockDecks: Deck[] = [
     name: "Spanish Basics",
     description: "Basic Spanish words",
     createdBy: {
+      user_id: 1,
       firstName: "Devin",
       lastName: "Daniels",
       accessToken: "",
@@ -62,6 +64,7 @@ const mockDecks: Deck[] = [
     name: "Programming Terms",
     description: "Common programming terms",
     createdBy: {
+      user_id: 1,
       firstName: "Devin",
       lastName: "Daniels",
       accessToken: "",
@@ -111,6 +114,7 @@ const mockDecks: Deck[] = [
     name: "French Basics",
     description: "Basic French words",
     createdBy: {
+      user_id: 1,
       firstName: "Devin",
       lastName: "Daniels",
       accessToken: "",
@@ -146,6 +150,7 @@ const mockDecks: Deck[] = [
     name: "German Basics",
     description: "Basic German words",
     createdBy: {
+      user_id: 1,
       firstName: "Devin",
       lastName: "Daniels",
       accessToken: "",
@@ -180,38 +185,29 @@ const mockDecks: Deck[] = [
 
 const App: React.FC = () => {
   const router = useRouter();
+
   const { isAuthenticated, getStoredUser, isInitialized } = useAuth();
   const user = getStoredUser();
-
-  let devUser: AuthorizedUser = {
-    firstName: "",
-    lastName: "",
-    accessToken: "",
-    picture: "",
-    email: "",
-  };
 
   useEffect(() => {
     if (isInitialized && !isAuthenticated()) {
       console.log("User is not authenticated, redirecting to login page...");
-      // router.replace("/auth/login");
+      router.replace("/auth/login");
+      return;
     }
+
+    const userInfo = getUserInfo();
+    console.log("userInfo", userInfo);
   }, [isInitialized, isAuthenticated, router]);
 
   if (!isAuthenticated() || !user) {
-    // return null;
-    devUser = {
-      firstName: "Devin",
-      lastName: "Daniels",
-      accessToken: "",
-      picture: "",
-      email: "",
-    };
+    console.log("User is not authenticated or user is null, returning ");
+    return null;
   }
 
   return (
     <>
-      <VocabDashboard user={user || devUser} decks={mockDecks} />
+      <VocabDashboard user={user} decks={mockDecks} />
     </>
   );
 };
