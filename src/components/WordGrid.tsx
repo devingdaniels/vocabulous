@@ -8,6 +8,7 @@ import { EditDeckModal } from "@/app/modals/EditDeckModal";
 import { TbTrashXFilled } from "react-icons/tb";
 import { WordDispatch } from "@/api/word";
 import { RiShieldFlashLine } from "react-icons/ri";
+import { SwalConfirmation, SwalIcon } from "@/app/modals/swal/Confirmation";
 
 interface WordGridProps {
   selectedDeck: Deck | undefined;
@@ -15,7 +16,7 @@ interface WordGridProps {
 
 const WordGrid: React.FC<WordGridProps> = ({ selectedDeck }) => {
   const [isCreateWordsModalShown, setIsCreateWordsModalShown] = React.useState(false);
-  const [isShowUpdateWordNameModal, setIsShowUpdateWordNameModal] = React.useState(false);
+  const [isShowUpdateDeckNameModal, setIsShowUpdateDeckNameModal] = React.useState(false);
 
   if (!selectedDeck) {
     return (
@@ -35,7 +36,7 @@ const WordGrid: React.FC<WordGridProps> = ({ selectedDeck }) => {
           <div className="flex flex-row gap-3 items-center">
             <h3>{selectedDeck.name}</h3>
             <BiEdit
-              onClick={() => setIsShowUpdateWordNameModal(!isShowUpdateWordNameModal)}
+              onClick={() => setIsShowUpdateDeckNameModal(!isShowUpdateDeckNameModal)}
               className="edit-icon cursor-pointer"
             />
           </div>
@@ -53,7 +54,19 @@ const WordGrid: React.FC<WordGridProps> = ({ selectedDeck }) => {
                 <p className="">{word?.word}</p>
                 <TbTrashXFilled
                   size={18}
-                  onClick={() => WordDispatch.deleteWordById(word.id)}
+                  onClick={async () => {
+                    await SwalConfirmation({
+                      title: "Are you sure?",
+                      text: "You won't be able to revert this!",
+                      icon: SwalIcon.warning,
+                      confirmButtonText: "Yes, delete it!",
+                      confirmationText: "Your file has been deleted.",
+                      denyButtonText: "Cancel",
+                      onConfirm: () => {
+                        WordDispatch.deleteWordById(word.id);
+                      },
+                    });
+                  }}
                   className="delete-icon cursor-pointer hover:text-red-500 transition-transform duration-200 hover:scale-110"
                 />
               </div>
@@ -75,8 +88,8 @@ const WordGrid: React.FC<WordGridProps> = ({ selectedDeck }) => {
         deckId={selectedDeck.id}
       />
       <EditDeckModal
-        setOpen={setIsShowUpdateWordNameModal}
-        isOpen={isShowUpdateWordNameModal}
+        setOpen={setIsShowUpdateDeckNameModal}
+        isOpen={isShowUpdateDeckNameModal}
         deckId={selectedDeck.id}
       />
     </>
