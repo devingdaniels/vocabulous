@@ -49,12 +49,16 @@ const WordGrid: React.FC<WordGridProps> = ({ selectedDeck }) => {
 
         <div className="word-grid">
           {selectedDeck.words?.map((word) => (
-            <WordCard key={word?.id} className="p-4 hover:shadow-lg transition-shadow">
+            <WordCard
+              key={word?.id}
+              className="p-4 hover:shadow-lg transition-shadow cursor-pointer"
+            >
               <div className="font-medium mb-2 flex flex-row justify-between">
                 <p className="">{word?.word}</p>
                 <TbTrashXFilled
                   size={18}
-                  onClick={async () => {
+                  onClick={async (e) => {
+                    e.stopPropagation();
                     await SwalConfirmation({
                       title: "Are you sure?",
                       text: "You won't be able to revert this!",
