@@ -9,7 +9,7 @@ import { TbTrashXFilled } from "react-icons/tb";
 import { WordDispatch } from "@/api/word";
 import { RiShieldFlashLine } from "react-icons/ri";
 import { SwalConfirmation, SwalIcon } from "@/app/modals/swal/Confirmation";
-
+import { useRouter } from "next/navigation";
 interface WordGridProps {
   selectedDeck: Deck | undefined;
 }
@@ -17,6 +17,8 @@ interface WordGridProps {
 const WordGrid: React.FC<WordGridProps> = ({ selectedDeck }) => {
   const [isCreateWordsModalShown, setIsCreateWordsModalShown] = React.useState(false);
   const [isShowUpdateDeckNameModal, setIsShowUpdateDeckNameModal] = React.useState(false);
+
+  const router = useRouter();
 
   if (!selectedDeck) {
     return (
@@ -42,7 +44,7 @@ const WordGrid: React.FC<WordGridProps> = ({ selectedDeck }) => {
           </div>
           <div className="navbar word-grid-header flex flex-row">
             <div className="word-grid-header-item cursor-pointer">
-              <RiShieldFlashLine onClick={() => alert("Implement flashcard page")} />
+              <RiShieldFlashLine onClick={() => router.push(`/flashcards/${selectedDeck.id}`)} />
             </div>
           </div>
         </h1>
@@ -66,9 +68,7 @@ const WordGrid: React.FC<WordGridProps> = ({ selectedDeck }) => {
                       confirmButtonText: "Yes, delete it!",
                       confirmationText: "Your file has been deleted.",
                       denyButtonText: "Cancel",
-                      onConfirm: () => {
-                        WordDispatch.deleteWordById(word.id);
-                      },
+                      onConfirm: () => WordDispatch.deleteWordById(word.id),
                     });
                   }}
                   className="delete-icon cursor-pointer hover:text-red-500 transition-transform duration-200 hover:scale-110"

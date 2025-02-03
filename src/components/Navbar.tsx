@@ -6,6 +6,7 @@ import { AuthorizedUser } from "@/interfaces/user.interface";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@radix-ui/themes";
 import { CgProfile } from "react-icons/cg";
+import { useRouter } from "next/navigation";
 
 interface NavBarProps {
   user: AuthorizedUser | null;
@@ -13,12 +14,14 @@ interface NavBarProps {
 
 const NavBar: React.FC<NavBarProps> = ({ user }) => {
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState<boolean>(false);
-
+  const router = useRouter();
   const { logout } = useAuth();
 
   return (
     <nav className="flex justify-between items-center p-4 bg-gray-800 text-white">
-      <h1 className="text-xl font-bold">Vocabulous</h1>
+      <h1 className="text-xl font-bold cursor-pointer" onClick={() => router.push("/home")}>
+        Vocabulous
+      </h1>
       <div
         className="flex items-center space-x-2 cursor-pointer"
         onClick={() => setIsSettingsModalOpen(!isSettingsModalOpen)}
