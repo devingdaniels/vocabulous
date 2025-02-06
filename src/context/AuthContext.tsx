@@ -2,86 +2,62 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { AuthorizedUser } from "@/interfaces/user.interface";
+import { 
+  User,
+  signInWithPopup,
+  GoogleAuthProvider,
+  signOut,
+  onAuthStateChanged
+} from "firebase/auth";
+import { auth } from "@/lib/firebase";
 
 interface AuthContextType {
-  isAuthenticated: () => boolean;
-  getStoredUser: () => AuthorizedUser | null;
-  logout: () => void;
-  isInitialized: boolean;
+  user: User | null;
+  loading: boolean;
+  signInWithGoogle: () => Promise<void>;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const router = useRouter();
-  const [isInitialized, setIsInitialized] = useState(false);
-  const [authToken, setAuthToken] = useState<string | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log("Initializing auth state...");
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+      setLoading(false);
+    });
 
-    // First check localStorage
-    const storedToken = localStorage.getItem("token");
-    if (storedToken) {
-      setAuthToken(storedToken);
-    }
-
-    // Then check URL parameters
-    const urlParams = new URLSearchParams(window.location.search);
-    const urlToken = urlParams.get("token");
-    const urlUser = urlParams.get("user");
-
-    if (urlToken) {
-      console.log("Found token in URL, storing...");
-      localStorage.setItem("token", urlToken);
-      setAuthToken(urlToken);
-    }
-
-    if (urlUser) {
-      try {
-        const user = JSON.parse(decodeURIComponent(urlUser)) as AuthorizedUser;
-        localStorage.setItem("user", JSON.stringify(user));
-      } catch (error) {
-        console.error("Error parsing user data:", error);
-      }
-    }
-
-    // Clean URL if parameters exist
-    if (urlToken || urlUser) {
-      const cleanPath = window.location.pathname;
-      window.history.replaceState({}, "", cleanPath);
-    }
-
-    setIsInitialized(true);
+    return () => unsubscribe();
   }, []);
 
-  const isAuthenticated = () => {
-    return !!authToken;
-  };
-
-  const getStoredUser = () => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      return JSON.parse(storedUser) as AuthorizedUser;
+  const signInWithGoogle = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      if (result.user) {
+        router.push('/dashboard');
+      }
+    } catch (error) {
+      console.error('Error signing in with Google:', error);
     }
-    return null;
   };
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    setAuthToken(null);
-    router.push("/auth/login");
+  const logout = async () => {
+    try {
+      await signOut(auth);
+      router.push('/');
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
   };
-
-  if (!isInitialized) {
-    return null;
-  }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, getStoredUser, logout, isInitialized }}>
-      {children}
+    <AuthContext.Provider value={{ user, loading, signInWithGoogle, logout }}>
+      {!loading && children}
     </AuthContext.Provider>
   );
 };
