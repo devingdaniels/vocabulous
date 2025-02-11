@@ -3,7 +3,7 @@
 import React from "react";
 import { useParams } from "next/navigation";
 import NavBar from "@/components/Navbar";
-import { DeckContainer } from "@/components/flashcard/DeckContainer";
+import { FlashCardContainer } from "@/components/flashcard/DeckContainer";
 
 const fakeDeck = {
   id: 1,
@@ -40,7 +40,7 @@ const DeckPage: React.FC = () => {
     <div className="min-h-screen bg-gray-50">
       <NavBar user={null} />
       <main className="container mx-auto pt-8">
-        <DeckContainer deck={fakeDeck} />
+        <FlashCardContainer deck={fakeDeck} />
       </main>
     </div>
   );

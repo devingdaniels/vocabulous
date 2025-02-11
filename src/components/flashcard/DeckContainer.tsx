@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BiSkipNextCircle, BiSkipPreviousCircle } from "react-icons/bi";
 import { motion, AnimatePresence } from "framer-motion";
+import { Volume2 } from "lucide-react";
 
 interface Word {
   id: number;
@@ -27,6 +28,11 @@ interface FlashCardProps {
 }
 
 const FlashCard: React.FC<FlashCardProps> = ({ word, isFlipped, setIsFlipped }) => {
+  const handleAudioClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    console.log("Playing audio for:", word.word);
+  };
+
   return (
     <div className="w-96 h-60 [perspective:2000px]" onClick={() => setIsFlipped(!isFlipped)}>
       <motion.div
@@ -44,38 +50,46 @@ const FlashCard: React.FC<FlashCardProps> = ({ word, isFlipped, setIsFlipped }) 
           transformStyle: "preserve-3d",
         }}
       >
-        {/* Front of card */}
         <div
           className="absolute w-full h-full rounded-xl cursor-pointer [backface-visibility:hidden] bg-gradient-to-br from-blue-100 via-white to-purple-100 shadow-lg border border-blue-200"
           style={{
             backfaceVisibility: "hidden",
           }}
         >
-          <motion.div
-            className="flex items-center justify-center h-full p-6"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            transition={{
-              type: "spring",
-              stiffness: 300,
-              damping: 20,
-            }}
-          >
-            <motion.span
+          <div className="flex flex-col items-center justify-center h-full p-6 relative">
+            <motion.div
               className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600"
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
+              whileHover={{ scale: 1.05 }}
               transition={{
                 duration: 0.4,
                 ease: "easeOut",
               }}
             >
               {word.word}
-            </motion.span>
-          </motion.div>
+            </motion.div>
+
+            <motion.div
+              className="absolute bottom-6 right-6"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              transition={{
+                type: "spring",
+                stiffness: 400,
+                damping: 17,
+              }}
+            >
+              <div
+                onClick={handleAudioClick}
+                className="p-2 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 cursor-pointer shadow-md hover:shadow-lg transition-shadow"
+              >
+                <Volume2 size={20} className="text-white" />
+              </div>
+            </motion.div>
+          </div>
         </div>
 
-        {/* Back of card */}
         <div
           className="absolute w-full h-full rounded-xl cursor-pointer [backface-visibility:hidden] bg-gradient-to-br from-purple-100 via-white to-blue-100 shadow-lg border border-purple-200"
           style={{
@@ -83,28 +97,20 @@ const FlashCard: React.FC<FlashCardProps> = ({ word, isFlipped, setIsFlipped }) 
             transform: "rotateY(180deg)",
           }}
         >
-          <motion.div
-            className="flex items-center justify-center h-full p-6"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            transition={{
-              type: "spring",
-              stiffness: 300,
-              damping: 20,
-            }}
-          >
-            <motion.span
+          <div className="flex items-center justify-center h-full p-6">
+            <motion.div
               className="text-3xl bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-600"
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
+              whileHover={{ scale: 1.05 }}
               transition={{
                 duration: 0.4,
                 ease: "easeOut",
               }}
             >
               {word.translation}
-            </motion.span>
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
       </motion.div>
     </div>
@@ -115,7 +121,7 @@ interface DeckContainerProps {
   deck: Deck;
 }
 
-const DeckContainer: React.FC<DeckContainerProps> = ({ deck }) => {
+const FlashCardContainer: React.FC<DeckContainerProps> = ({ deck }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
 
@@ -145,6 +151,11 @@ const DeckContainer: React.FC<DeckContainerProps> = ({ deck }) => {
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [isFlipped, currentIndex]);
+
+  const handleRating = (difficulty: string) => {
+    console.log(`Rated as ${difficulty}`);
+    handleNext();
+  };
 
   return (
     <div className="flex flex-col items-center gap-8 p-8">
@@ -207,6 +218,33 @@ const DeckContainer: React.FC<DeckContainerProps> = ({ deck }) => {
         </motion.div>
       </AnimatePresence>
 
+      <div className="flex gap-4">
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="px-6 py-2 rounded-lg font-medium text-white bg-gradient-to-r from-green-500 to-green-600 shadow-md hover:shadow-lg transition-shadow"
+          onClick={() => handleRating("easy")}
+        >
+          Easy
+        </motion.button>
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="px-6 py-2 rounded-lg font-medium text-white bg-gradient-to-r from-yellow-500 to-yellow-600 shadow-md hover:shadow-lg transition-shadow"
+          onClick={() => handleRating("medium")}
+        >
+          Medium
+        </motion.button>
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="px-6 py-2 rounded-lg font-medium text-white bg-gradient-to-r from-red-500 to-red-600 shadow-md hover:shadow-lg transition-shadow"
+          onClick={() => handleRating("hard")}
+        >
+          Hard
+        </motion.button>
+      </div>
+
       <div className="flex items-center gap-8">
         <motion.div
           whileHover={{ scale: 1.1 }}
@@ -255,4 +293,4 @@ const DeckContainer: React.FC<DeckContainerProps> = ({ deck }) => {
   );
 };
 
-export { FlashCard, DeckContainer };
+export { FlashCard, FlashCardContainer };
