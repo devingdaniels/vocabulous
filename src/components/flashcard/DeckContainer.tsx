@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BiSkipNextCircle, BiSkipPreviousCircle } from "react-icons/bi";
 import { motion, AnimatePresence } from "framer-motion";
-import { Volume2 } from "lucide-react";
+import { Volume2, Info } from "lucide-react";
 
 interface Word {
   id: number;
@@ -28,9 +28,25 @@ interface FlashCardProps {
 }
 
 const FlashCard: React.FC<FlashCardProps> = ({ word, isFlipped, setIsFlipped }) => {
-  const handleAudioClick = (e: React.MouseEvent) => {
+  const handleAudioClick = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    console.log("Playing audio for:", word.word);
+
+    try {
+      const response = await fetch(`https://voca-speech.azurewebsites.net/pronounce/${word.word}`);
+
+      const audioBlob = await response.blob();
+
+      const audioUrl = URL.createObjectURL(audioBlob);
+
+      const audio = new Audio(audioUrl);
+      await audio.play();
+
+      audio.onended = () => {
+        URL.revokeObjectURL(audioUrl);
+      };
+    } catch (error) {
+      console.error("Error fetching pronunciation:", error);
+    }
   };
 
   return (
@@ -73,7 +89,7 @@ const FlashCard: React.FC<FlashCardProps> = ({ word, isFlipped, setIsFlipped }) 
             <motion.div
               className="absolute bottom-6 right-6"
               whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+              whileTap={{ scale: 0.95 }}
               transition={{
                 type: "spring",
                 stiffness: 400,
@@ -84,7 +100,7 @@ const FlashCard: React.FC<FlashCardProps> = ({ word, isFlipped, setIsFlipped }) 
                 onClick={handleAudioClick}
                 className="p-2 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 cursor-pointer shadow-md hover:shadow-lg transition-shadow"
               >
-                <Volume2 size={20} className="text-white" />
+                <Volume2 size={24} className="text-white" />
               </div>
             </motion.div>
           </div>
@@ -97,7 +113,28 @@ const FlashCard: React.FC<FlashCardProps> = ({ word, isFlipped, setIsFlipped }) 
             transform: "rotateY(180deg)",
           }}
         >
-          <div className="flex items-center justify-center h-full p-6">
+          <div className="flex items-center justify-center h-full relative">
+            <motion.div
+              className="absolute bottom-4 left-4"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{
+                type: "spring",
+                stiffness: 400,
+                damping: 17,
+              }}
+            >
+              <div
+                onClick={(e) => {
+                  e.stopPropagation();
+                  console.log("Info clicked for:", word.word);
+                }}
+                className="p-2 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 cursor-pointer shadow-md hover:shadow-lg transition-shadow"
+              >
+                <Info size={16} className="text-white" />
+              </div>
+            </motion.div>
+
             <motion.div
               className="text-3xl bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-600"
               initial={{ scale: 0.9, opacity: 0 }}
